@@ -11,7 +11,7 @@
     var testSettings = false;
     var testServerSettings = true;
     var testParams = false;
-    var testGroups = false;
+    var testGroups = true;
     var testColors = true;
     var tagToolbars = true;
 }
@@ -69,6 +69,9 @@
 
 @if(testGroups) { <hr><h2>Groups and Positioning</h2>
     <ol>
+        @showTest("Add 1 button at start", "[`app`]")
+        @showTest("Add 1 button at end", "[`app&pos=-0`]")
+        @showTest("Add 2 button at second position", "[`app&pos=10`]")
         @showTest("add 2 buttons: layout, and template-develop", 
             "[`layout`, `template-develop&pos=1`]")
         @showTest("Add group at start with 1 button: template-develop", 
