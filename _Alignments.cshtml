@@ -1,0 +1,66 @@
+
+
+
+<h1 class="sc-element">Changing your toolbar alignments @Edit.Toolbar(Content)</h1>
+<p>This short demo shows custom <a href="https://github.com/2sic/2sxc/wiki/Html-Js-Toolbar-Settings">toolbar settings</a>. It tries to show: </p>
+
+<ol>
+    <li>changing hover to left / right or not hovering at all (forced inline)</li>
+    <li>doing this in html or Razor</li>
+    <li>auto adding "more" buttons to button groups, both left or right</li>
+    <li>always showing a toolbar without waiting for a mouse-over</li>
+</ol>
+
+<div class="demobox sc-element">
+    Standard behavior: floating right, more to the right
+    <ul class="sc-menu" toolbar=''></ul>
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments floating left with more to the right (not very practical)
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "left" }'></ul>
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments - same as above, but made with Razor
+    @Edit.Toolbar(Content, toolbar: new {}, settings: new { hover = "left" })
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments - Razor, now showing standard buttons, just left-aligned
+    @Edit.Toolbar(Content, settings: new { hover = "left" })
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments floating left with more to the left
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "left", "autoAddMore": "left" }'></ul>
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments floating right with simpler toolbar-attribute
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "right" }'></ul>
+</div>
+
+<div class="demobox sc-element">
+    Box to show alignments floating left without more (as custom buttons)
+    <ul class="sc-menu" toolbar='[{ "action": "new", "contentType": "Dummy" }]' settings='{ "hover": "left" }'></ul>
+</div>
+
+<div class="demobox sc-element">
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "none", "autoAddMore": "left" }'></ul>
+    Box to show not floating 
+</div>
+
+<div class="demobox sc-element">
+    Box to show no-hide... 
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "left", "autoAddMore": "left", "show": "always" }'></ul>
+</div>
+
+<div class="demobox sc-element">
+    Box to show no-float and no-hide... 
+    <ul class="sc-menu" toolbar='' settings='{ "hover": "none", "autoAddMore": "left", "show": "always" }'></ul>
+</div>
+
+<style>
+    .demobox { height: 50px; border-width: 1px; border-color: coral; border-style: dashed;}
+</style>

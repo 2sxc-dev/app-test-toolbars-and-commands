@@ -1,0 +1,86 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+
+
+<div @Edit.TagToolbar(Content)>
+    <h1>Metadata and Prefill tests 2</h1>
+</div>
+
+<h1>Metadata</h1>
+
+@TestBlock("Basic Metadata - just key", true, "metadata?entityId=0&contentType=ForPrefillTests&for=file:999")
+
+
+@TestBlock("Basic Metadata - full specs", true, "metadata?entityId=0&contentType=ForPrefillTests&for=10,number,7777")
+
+@TestBlock("Basic Metadata - with entityId", true, "metadata?&metadata=243&entityId=71045&contentType=ForPrefillTests&for=10,number,7777")
+
+
+<h1>Prefill</h1>
+
+<h2>Text and Numbers</h2>
+@TestBlock("Basic Prefill of Text", true, "new?contentType=ForPrefillTests&prefill:Title=a great title")
+
+@TestBlock("Basic Prefill of WYSIWYG", false, "new?contentType=ForPrefillTests&prefill:WYSIWYG=<b>bold text</b> and not so bold \"quoted\"")
+
+
+@TestBlock("Basic Prefill of a number", true, "new?contentType=ForPrefillTests&prefill:ANumber=20503")
+
+@TestBlock("Basic Prefill of a text and number", true, "new?contentType=ForPrefillTests&prefill:Title=nice!&prefill:ANumber=20503")
+
+<hr>
+<h2>Related Item IDs</h2>
+@TestBlock("Basic Prefill of a single item with Guid-id as string", true, "new?contentType=ForPrefillTests&prefill:SingleItem=b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb")
+
+
+@TestBlock("Basic Prefill of many items with Guid-id CSV, no array", true, "new?contentType=ForPrefillTests&prefill:ManyItems=b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb,91753b4d-4932-4b22-af1c-f6ac2b76c67a")
+
+@TestBlock("Basic Prefill of many items with Guid-id CSV, no array and space!", true, "new?contentType=ForPrefillTests&prefill:ManyItems=b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb, 91753b4d-4932-4b22-af1c-f6ac2b76c67a")
+
+
+<hr>
+<h2>Date and Time</h2>
+
+@TestBlock("Prefill of Date", true, "new?contentType=ForPrefillTests&prefill:Date=2020-03-04")
+
+@TestBlock("Prefill of Date and Time Zulu-format - must use Zulu!", true, "new?contentType=ForPrefillTests&prefill:Date=2020-03-04T11:27Z")
+
+<hr>
+<h2>Boolean</h2>
+@TestBlock("Basic Prefill of a boolean true", true, "new?contentType=ForPrefillTests&prefill:IsSomething=true")
+
+@TestBlock("Basic Prefill of a boolean false", true, "new?contentType=ForPrefillTests&prefill:IsSomething=false")
+
+
+<hr>
+<h2>Problem Formats / implementations</h2>
+
+@TestBlock("FAILS: Basic Prefill of a single item with int-id NOT SUPPORTED", true, "new?contentType=ForPrefillTests&prefill:SingleItem=71038")
+
+@TestBlock("FAILS: Basic Prefill of a single item with int-id in array NOT SUPPORTED", true, "new?contentType=ForPrefillTests&prefill:SingleItem=[71038]")
+
+
+<hr>
+<h2>Not supported formats - but will work</h2>
+
+@TestBlock("Basic Prefill of a single item with Guid-id in array", true, "new?contentType=ForPrefillTests&prefill:SingleItem=[\"b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb\"]")
+
+@TestBlock("Basic Prefill of many items with Guid-id", true, "new?contentType=ForPrefillTests&prefill:ManyItems=[\"b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb\", \"91753b4d-4932-4b22-af1c-f6ac2b76c67a\"]")
+
+
+
+@helper TestBlock(string label, bool empty, string modifier) {
+    // var modifierList = new [] { "toolbar=empty", modifier } ;
+    var modifierList = empty 
+        ? new [] { "toolbar=empty", modifier } 
+        : new [] { modifier };
+
+    <div class="demobox">
+        <h2>@label</h2>
+        @Edit.Toolbar(toolbar: modifierList)
+    </div>
+
+}
+
+<style>
+    .demobox { height: 70px; border-width: 2px; border-color: coral; border-style: dashed;}
+</style>

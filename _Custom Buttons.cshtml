@@ -1,0 +1,50 @@
+<h1>Custom Buttons</h1>
+
+<p>This demonstrates how to create custom toolbar buttons</p>
+
+<ul>
+    <li>
+        Todo: single custom alert action
+        <ul class="sc-menu" toolbar='{
+            "action": "custom",
+            "customCode": "alert(\"basic custom button\")"
+        }'></ul>
+    </li>
+        <li>
+        custom js action
+        <ul class="sc-menu" toolbar='{"groups": [
+            { "buttons": [
+                { 
+                    "command": { 
+                        "action": "custom", 
+                        "customCode": "alert(\"custom button!\")"
+                    },
+                    "icon": "icon-sxc-code", 
+                    "title": "my custom code"
+                },{
+                    "command": {
+                        "action": "custom", 
+                        "customCode": "someCustomAction(context, event);"
+                    }, 
+                    "icon": "icon-sxc-code", 
+                    "title": "call my function"
+                },
+                "layout", 
+                "more"
+            ]}, {
+                "buttons": "layout,more"
+            }
+        ], "debug": true}'></ul>
+    </li>
+</ul>
+<script>
+    function someCustomAction(context, event) {
+        console.log("found this context: ", context); 
+        console.log("for this click event: ", event); 
+        alert("check js console output");
+    }
+</script>
+
+<div>
+    click on one of the &lt;/&gt; buttons to see custom JS actions
+</div>

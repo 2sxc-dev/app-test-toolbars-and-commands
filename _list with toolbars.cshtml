@@ -1,0 +1,18 @@
+
+<h1>List Example using classic Razor page</h1>
+<p>Simple, standard example of using a toolbar on list-items and list-header.</p>
+
+<h2>
+    @ListContent.Title
+    @Edit.Toolbar(ListContent)
+</h2>
+
+<strong>The List</strong>
+@foreach(var cont in AsDynamic(Data["Default"])){
+<ol>
+    <li class="sc-element">
+        @cont.EntityTitle
+        @Edit.Toolbar(cont)
+    </li>
+</ol>
+}

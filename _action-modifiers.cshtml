@@ -1,0 +1,253 @@
+@* This tells the compiler to use the new RazorComponent - see https://r.2sxc.org/RazorComponent *@ 
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using System.Linq
+@{
+    // enable/disable test sections for better debugging during development
+    var testBasics = false;
+    var testMultipleNew = false;
+    var testOtherTemplate = false;
+    var testButtonId = false;
+    var testDelete = true;
+    var testSettings = false;
+    var testServerSettings = true;
+    var testParams = false;
+    var testGroups = false;
+    var testColors = true;
+    var tagToolbars = true;
+}
+
+<div Edit.TagToolbar(Content)>
+    <h1>New Tests for 10.27 syntax</h1>
+    
+@if(testBasics) { <hr> <h2>Basics - Empty or just Remove</h2>
+    <ol>
+        @showTest("Empty string without anything", "[``]")
+        @showTest("Remove edit, layout, template-code", "[`-edit`, `-layout?`, `-template-develop?something=other`]")
+    </ol>
+}
+
+@if(testMultipleNew) { <hr> <h2>Multiple New Buttons</h2>
+    <ol>
+        @showTest("Single New button", "[`new?contentType=Dummy`]")
+        @showTest("Two New buttons", "[`new-dummy=new?contentType=Dummy`, `new-quote=new?contentType=Quotes`]")
+
+    </ol>
+}
+
+
+@if(testOtherTemplate) { <hr> <h2>Use other toolbar templates</h2>
+    <ol>
+        @showTest("Use empty template", "[`toolbar=empty`]")
+        @showTest("Use empty template with layout button", "[`toolbar=empty`, `layout`]")
+    </ol>
+}
+
+@if(testButtonId) { <hr> <h2>Use 'empty' toolbar templates</h2>
+    <ol>
+        @showTest("Empty template with special layout button", 
+        "[`toolbar=empty`, `ly=layout&color=red&icon=icon-sxc-sliders&class=test-cls`, `td&name=template-develop&color=green`, `td2&name=template-develop&color=blue`, `td3=template-develop&pos=1&color=brown`, `td4=template-develop&pos=-0&color=FF000055`]")
+    </ol>
+}
+
+@if(testSettings) { <hr> <h2> JS Settings</h2>
+    <ol>
+        <li>
+            $settings and %more=green
+            <ul class="sc-menu" toolbar='["$settings?color=red&autoAddMore=end", "-layout?", "%more#color=green"]'></ul>
+        </li>
+    </ol>
+}
+
+@if(testParams) { <hr> <h2>JS Params</h2>
+    <ol>
+        <li>
+            JS Params!
+            <ul class="sc-menu" toolbar='["$params?entityId=57&contentType=abcd", "-layout?", "-template-develop?something=other"]'></ul>
+        </li>
+    </ol>
+} 
+
+@if(testGroups) { <hr><h2>Groups and Positioning</h2>
+    <ol>
+        @showTest("add 2 buttons: layout, and template-develop", 
+            "[`layout`, `template-develop&pos=1`]")
+        @showTest("Add group at start with 1 button: template-develop", 
+            "[`group&name=gp1`, `template-develop&group=gp1&pos=1`]")
+        @showTest("Add group with shorthand and 1 button: template-develop", 
+            "[`group=gp1`, `template-develop&group=gp1&pos=1`]")
+        @showTest("add 1 button: template-develop in group which is new (at end)", 
+            "[`template-develop&group=gp1&pos=1`]")
+
+        @showTest("add two groups with one button each", 
+            "[`group=gp1`, `group=gp2`, `edit&group=gp1`, `edit&group=gp1`, `template-develop&group=gp2`, `app&group=gp2`]")
+            
+        @showTest("remove the list-group", 
+            "[`-group=list`]")
+    </ol>
+}
+
+@if(testDelete) { <hr><h2>Server Side Toolbars</h2>
+    <ol>
+        <li>
+            With 'delete' in third Toolbar
+            @Edit.Toolbar(Content, toolbar: new [] { "%delete&show=true" })
+            <hr>
+        </li>        
+    </ol>
+}
+
+@if(testServerSettings) { <hr> <h2>Server Rules & Settings</h2>
+    <ol>
+        <li>
+            Without string-only '-layout' 
+            @Edit.Toolbar(Content, toolbar: "-layout")
+            <hr>
+        </li>
+
+        <li>
+            Without most template buttons
+            @Edit.Toolbar(Content, toolbar: new [] { "-template", "-develop", "-template-settings", "-template-query", "-contenttype"})
+            <hr>
+        </li>
+        <li>Basic server settings @Edit.Toolbar(Content, settings: "color=red")
+        </li>
+    </ol>
+}
+
+</div>
+
+@if(testColors) { <hr> <h2>Experiment with Colors ?</h2>
+<ol>
+    <li>
+        JS Toolbar with edit-only and colors
+        <ul class="sc-menu" 
+        toolbar='["toolbar=empty", "edit&color=FF0000,00FF00?entityId=@Content.EntityId"]'></ul>
+    </li>
+    <li>
+        JS Toolbar with all buttons and additional edit in color - just testing, can't work as it doesn't have IDs
+        <ul class="sc-menu" 
+        toolbar='["edit&color=FF0000,00FF00"]'></ul>
+    </li>
+    <li>
+        Server Toolbar with all buttons and modified edit in color
+        @Edit.Toolbar(Content, toolbar: "%edit&color=FF0000,00FF00")
+    </li>
+    <li>
+        Change background color server-toolbar: @Edit.Toolbar(Content, toolbar: new [] { "settings&color=FF0000,00FF00"})
+    </li>
+    <li>
+        Change color on server-Settings: @Edit.Toolbar(Content, settings: new { color = "#FF0000,#00FF00"})
+    </li>
+</ol>
+}
+
+
+
+@if(tagToolbars) { <hr> <h2>Tag Toolbars</h2>
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: "%delete&show=true")>
+    Some div with content and a floating toolbar - delete activated
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: "new?contentType=Category")>
+    Some div with content and an additional new-button for Category
+    <br>
+    This is just some demo content.
+</div>
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: "new&color=red?contentType=Category")>
+    Some div with content and an additional new-button for Category - red!
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: new [] { 
+    "new&color=red?contentType=Category", 
+    "new&color=teal?contentType=Tag" 
+})>
+    Some div with content and an additional new-button for Category (red) and Tag (pink)
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: new [] { 
+    "-layout",
+    "new&color=red?contentType=Category", 
+    "new&color=teal?contentType=Tag" 
+})>
+    Now without the view (layout) button
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: new [] { 
+    "%layout&icon=icon-sxc-replace&color=white,maroon",
+    "new&color=red?contentType=Category", 
+    "new&color=teal?contentType=Tag" 
+})>
+    Now with a modified the view (layout) button
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: new [] {
+    "toolbar=empty",
+    "new&color=red?contentType=Category", 
+    "new&color=teal?contentType=Tag" 
+})>
+    Some div with only the two new-button for Category (red) and Tag (pink)
+    <br>
+    This is just some demo content.
+</div>
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: new [] {
+    "group=add-buttons",
+    "new&color=red&group=add-buttons?contentType=Category", 
+    "new&color=teal&group=add-buttons?contentType=Tag" 
+})>
+    Now we'll start with our custom group and then have the default buttons. 
+    <br>
+    This is just some demo content.
+</div>
+
+
+<br>
+<div class="demobox" @Edit.TagToolbar(Content, toolbar: "custom&title=Message?call=myMessage&id=17")>
+    This demonstrates a custom button with the call-name in the parameters. 
+</div>
+<script>
+    function myMessage(context, event) {
+        console.log(context, event);
+        alert('hello from my Message - got this id:' + context.button.command.params.id);
+    }
+</script>
+
+}
+
+
+<hr>
+<div class="demobox" @Edit.TagToolbar(Content)>
+    <h1>Default toolbar for backup and checks</h1>
+    <div>just some toolbar to use in case others break</div>
+</div>
+
+
+@helper showTest(string label, string toolbar) {
+    toolbar = toolbar.Replace("`", "\"");
+    <li>
+        @label - @toolbar
+        <ul class="sc-menu" toolbar='@toolbar'></ul>
+    </li>
+}
+
+<style>
+    .demobox { height: 70px; border-width: 2px; border-color: coral; border-style: dashed;}
+</style>

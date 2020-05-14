@@ -1,0 +1,100 @@
+
+
+<h1>2sic Buttons and Toolbars in JS @*Edit.Toolbar(Content)*@ </h1>
+
+<p>This demo shows various cases of JavaScript code creating buttons, calling actions or doing other stuff you usually need to provide in-content editing stuff. For for information, consult the <a href="https://github.com/2sic/2sxc/wiki">2sxc wiki</a></p>
+
+
+
+<h2>Toolbars with various configs</h2>
+<ol>
+@*
+    <li>
+        Standard, automatic Toolbar, auto generated in razor
+        @Edit.Toolbar(Content)
+    </li>
+    <li>
+        Basic HTML Toolbar with only entity-id 
+        <ul class="sc-menu" toolbar='{"entityId":@Content.EntityId}'></ul>
+    </li>
+    <li>
+        Basic HTML Toolbar with id and published (@Content.IsPublished) 
+        <ul class="sc-menu" toolbar='{"entityId": @Content.EntityId, "isPublished": "@Content.IsPublished"}'></ul>
+    </li>
+    <li>
+        Toolbar with edit-only 
+        <ul class="sc-menu" toolbar='{"entityId": @Content.EntityId, "action": "edit"}'>></ul>
+    </li>
+    <li>
+        Toolbar with edit-only, in array
+        <ul class="sc-menu" toolbar='[{"entityId": @Content.EntityId, "action": "edit" }]'>></ul>
+    </li>
+
+    <li>
+        Edit and layout 
+        <ul class="sc-menu" toolbar='{"entityId": @Content.EntityId, "action": "edit,layout", "debug": true}'></ul>
+    </li>
+    <li>
+        New 
+        <ul class="sc-menu" toolbar='{"contentType":"Dummy", "action": "new"}'></ul>
+    </li>    
+    <li>
+        long bar 
+        <ul class="sc-menu" toolbar='{"entityId": @Content.EntityId, "contentType":"Dummy", "action": "new,edit,layout,app,zone"}'></ul>
+    </li>  
+    <li>
+        multi-action green
+        <ul class="sc-menu" toolbar='[{"entityId": @Content.EntityId, "action": "edit"},{"contentType":"Dummy", "action": "new"}]'></ul>
+    </li>
+*@
+    <li>
+        <div class="sc-element">
+    Here's an example of 2 add-buttons to create different kinds of things
+    <ul class="sc-menu" toolbar='[{
+            "command": { 
+                "action": "new",
+                "contentType": "Category"
+            },
+            "title": "create Category",
+            "classes": "group-pro"
+        }, {
+            "command": { 
+                "action": "new",
+                "contentType": "Author"
+            },
+            "title": "create Author"
+    }]' settings='{ "hover": "left", "show": "always" }'></ul>
+</div>
+        
+        
+    </li>
+    <li>
+        a button-array with 1 group only, containing invalid action-name
+        <ul class="sc-menu" toolbar='[{"contentType":"Dummy", "action": "new,layout,fakeActionTest"}]'></ul>
+    </li>  
+
+</ol>
+
+<hr>
+<ol>
+    <li>
+        a custom multi group
+        <ul class="sc-menu" toolbar='{
+            "name": "multigroup",
+            "debug": true,
+            "groups": [
+                { "buttons": "layout"},
+                { "buttons": "new,app"},
+                { "buttons": "edit,zone"}
+            ], 
+        "params": {
+             "contentType":"Dummy",
+             "entityId": @Content.EntityId
+            },
+        "settings": {
+            "autoAddMore": "right"
+        }
+        }'>
+        </ul> 
+    </li>       
+</ol>
