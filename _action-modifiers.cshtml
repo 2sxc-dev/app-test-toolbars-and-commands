@@ -4,16 +4,16 @@
 @{
     // enable/disable test sections for better debugging during development
     var testBasics = false;
-    var testMultipleNew = false;
+    var testMultipleNew = true;
     var testOtherTemplate = false;
     var testButtonId = false;
-    var testDelete = true;
+    var testDelete = false;
     var testSettings = false;
-    var testServerSettings = true;
+    var testServerSettings = false;
     var testParams = false;
     var testGroups = true;
-    var testColors = true;
-    var tagToolbars = true;
+    var testColors = false;
+    var tagToolbars = false;
 }
 
 <div Edit.TagToolbar(Content)>
@@ -28,7 +28,10 @@
 
 @if(testMultipleNew) { <hr> <h2>Multiple New Buttons</h2>
     <ol>
-        @showTest("Single New button", "[`new?contentType=Dummy`]")
+        @showTest("Single New button", "[`new?contentType=Quotes`]")
+        
+        @razorTagToolbar("same but using razor and current Content", "new?contentType=Quotes", true)
+
         @showTest("Two New buttons", "[`new-dummy=new?contentType=Dummy`, `new-quote=new?contentType=Quotes`]")
 
     </ol>
@@ -67,25 +70,27 @@
     </ol>
 } 
 
-@if(testGroups) { <hr><h2>Groups and Positioning</h2>
+@if(testGroups) { 
+<hr><h2>Groups and Positioning</h2>
+<div>
+This already uses the <code>showTest1103</code> syntax which is a comma separated string
+</div>
     <ol>
-        @showTest("Add 1 button at start", "[`app`]")
-        @showTest("Add 1 button at end", "[`app&pos=-0`]")
-        @showTest("Add 2 button at second position", "[`app&pos=10`]")
-        @showTest("add 2 buttons: layout, and template-develop", 
-            "[`layout`, `template-develop&pos=1`]")
-        @showTest("Add group at start with 1 button: template-develop", 
-            "[`group&name=gp1`, `template-develop&group=gp1&pos=1`]")
-        @showTest("Add group with shorthand and 1 button: template-develop", 
-            "[`group=gp1`, `template-develop&group=gp1&pos=1`]")
-        @showTest("add 1 button: template-develop in group which is new (at end)", 
-            "[`template-develop&group=gp1&pos=1`]")
+        @showTest1103("Add 1 button at start using default", "app")
+        @showTest1103("Add 1 button at start using pos", "app&pos=0")
+        @showTest1103("Add 1 button after start using high number (because other buttons in front are removed)", "app&pos=5")
+        <hr>
+        @showTest1103("Add 1 button at end", "app&pos=-0")
+        @showTest1103("Add 1 button at end -1", "app&pos=-1")
+        <hr>
+        @showTest1103("add 2 buttons: layout, and template-develop", "layout,template-develop&pos=1")
+        @showTest1103("Add group at start with 1 button: template-develop", "group&name=gp1,template-develop&group=gp1&pos=1")
+        @showTest1103("Add group with shorthand and 1 button: template-develop", "group=gp1,template-develop&group=gp1&pos=1")
+        @showTest1103("add 1 button: template-develop in group which is new (at end)", "template-develop&group=gp1&pos=1")
 
-        @showTest("add two groups with one button each", 
-            "[`group=gp1`, `group=gp2`, `edit&group=gp1`, `edit&group=gp1`, `template-develop&group=gp2`, `app&group=gp2`]")
+        @showTest1103("add two groups with one button each", "group=gp1,group=gp2,edit&group=gp1,edit&group=gp1,template-develop&group=gp2,app&group=gp2")
             
-        @showTest("remove the list-group", 
-            "[`-group=list`]")
+        @showTest1103("remove the list-group", "-group=list")
     </ol>
 }
 
@@ -248,6 +253,22 @@
     <li>
         @label - @toolbar
         <ul class="sc-menu" toolbar='@toolbar'></ul>
+    </li>
+}
+
+@helper razorTagToolbar(string label, string toolbar, bool useContent = false) {
+    <li @Edit.TagToolbar(useContent ? Content : null, toolbar: toolbar)>
+        @label - @toolbar
+        
+    </li>
+}
+
+
+@helper showTest1103(string label, string toolbar, bool useContent = false) {
+    // toolbar = toolbar.Replace("`", "\"");
+    <li>
+        @label - @toolbar
+        @Edit.Toolbar(toolbar: toolbar)
     </li>
 }
 
