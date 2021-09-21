@@ -1,0 +1,73 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+
+<h1>Toolbar Events</h1>
+
+<div id='tagWithToolbar1' @Edit.TagToolbar(Content)>
+    
+    Title: @Content.EntityTitle
+</div>
+
+<script>
+  console.log('will try to bind event');
+  var tag = $("#tagWithToolbar1");
+  console.log("parent", tag);
+  tag[0].addEventListener('toolbar-init', (e) => {
+    const eventParams = e.detail;
+    const wf = eventParams.workflow;
+    console.log('hit event!', e, eventParams)
+
+    wf.add({
+      command: 'refresh',
+      code: (wfArgs) => {
+        console.log('will not refresh');
+        // return false;
+      }
+    });
+
+    return;
+
+    wf.add({
+      name: 'test-all',
+      // command: 'all',
+      code: (wfArgs) => {
+        console.log('ALL - wf args', wfArgs);
+      },
+    });
+
+    wf.add({
+      name: 'test-edit',
+      command: 'edit',
+      code: (wfArgs) => {
+        console.log('EDIT wf args', wfArgs);
+      },
+    });
+
+    wf.add({
+      name: 'test-layout',
+      command: 'layout',
+      phase: 'before',
+      code: (wfArgs) => {
+        console.log('LAYOUT BEFORE wf args', wfArgs);
+        // return false;
+      },
+    });
+    wf.add({
+      name: 'test-layout2',
+      command: 'layout',
+      phase: 'before',
+      code: (wfArgs) => {
+        console.log('LAYOUT BEFORE #2 wf args', wfArgs);
+        // return false;
+      },
+    });
+
+    wf.add({
+      name: 'test-layout',
+      command: 'layout',
+      phase: 'after',
+      code: (wfArgs) => {
+        console.log('LAYOUT AFTER wf args', wfArgs);
+      },
+    });
+  });
+</script>

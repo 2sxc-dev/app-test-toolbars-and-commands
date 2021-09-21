@@ -1,0 +1,43 @@
+@* This tells the compiler to use the new RazorComponent - see https://r.2sxc.org/RazorComponent *@ 
+@inherits Custom.Hybrid.Razor12
+
+<h1>Toolbar Condition</h1>
+<div>
+    Testing various conditions
+</div>
+
+<h2>Should show</h2>
+<ol>
+  <li>
+    No condition given: @Edit.Toolbar(Content)
+  </li>
+  <li>
+    Null: @Edit.Toolbar(Content, condition: null)
+  </li>
+  <li>
+    1: @Edit.Toolbar(Content, condition: 1)
+  </li>
+  <li>
+    IsDemoItem: @Edit.Toolbar(Content, condition: Content.IsDemoItem)
+  </li>
+  <li>
+    Nonexisting Property: @Edit.Toolbar(Content, condition: Content.NonexistingProperty)
+  </li>
+
+</ol>
+
+<h2>Shoudn't show</h2>
+<ol>
+  <li>
+    !IsDemoItem : @Edit.Toolbar(Content, condition: !Content.IsDemoItem)
+  </li>
+  <li>
+    false : @Edit.Toolbar(Content, condition: false)
+  </li>
+  <li>
+    0 : @Edit.Toolbar(Content, condition: 0)
+  </li>
+  <li>
+    !IsDemoItem : @Edit.Toolbar(Content, condition: !Content.IsDemoItem)
+  </li>
+</ol>

@@ -2,9 +2,13 @@
 
 
 <div @Edit.TagToolbar(Content)>
-    <h1>Metadata and Prefill tests 2</h1>
+  <h1>Prefill Tests for Lists</h1>
+  Here we have a problem ATM 2021-01-18 that the prefill fails in list-mode. 
+  It seems the UI skips the prefill
 </div>
 
+
+@*
 <h1>Metadata</h1>
 
 @TestBlock("Basic Metadata - just key", true, "metadata?entityId=0&contentType=ForPrefillTests&for=file:999")
@@ -38,10 +42,21 @@
 
 @TestBlock("Basic Prefill of many items with Guid-id CSV, no array and space!", true, "new?contentType=ForPrefillTests&prefill:ManyItems=b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb, 91753b4d-4932-4b22-af1c-f6ac2b76c67a")
 
+*@
 
 <hr>
 <h2>Date and Time</h2>
 
+<div>
+  Classic mode - must prefill date/time to the new item (bug!): @Edit.Toolbar(Content, actions: "new", prefill: new {
+                        Date =  DateTime.UtcNow.ToString("o"), //"2020-02-03",
+                        Date2 = DateTime.UtcNow.ToString("R"),
+                        Date3 = DateTime.UtcNow.AddDays(29).ToString("R") })
+</div>
+<hr>
+
+
+@*
 @TestBlock("Prefill of Date", true, "new?contentType=ForPrefillTests&prefill:Date=2020-03-04")
 
 @TestBlock("Prefill of Date 3x", true, "new?contentType=ForPrefillTests&prefill:Date=2020-03-04&prefill:Date2=2020-04-05&prefill:Date3=2021-12-31")
@@ -50,12 +65,7 @@
 
 @TestBlock("Prefill of Date and Time 2x Zulu-format - must use Zulu!", true, "new?contentType=ForPrefillTests&prefill:Date=2020-03-04T11:27Z&prefill:Date2=" + DateTime.UtcNow.ToString("o") + "&prefill:Date3=" + DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))
 
-<div>
-  Classic mode: @Edit.Toolbar(actions: "new", contentType: "ForPrefillTests", prefill: new {
-                        Date =  DateTime.UtcNow.ToString("o"), //"2020-02-03",
-                        Date2 = DateTime.UtcNow.ToString("R"),
-                        Date3 = DateTime.UtcNow.AddDays(29).ToString("R") })
-</div>
+
 
 <hr>
 <h2>Boolean</h2>
@@ -79,7 +89,7 @@
 
 @TestBlock("Basic Prefill of many items with Guid-id", true, "new?contentType=ForPrefillTests&prefill:ManyItems=[\"b7c1c2e1-4896-4999-a0bc-87ddf3ce31cb\", \"91753b4d-4932-4b22-af1c-f6ac2b76c67a\"]")
 
-
+*@
 
 @helper TestBlock(string label, bool empty, string modifier) {
     // var modifierList = new [] { "toolbar=empty", modifier } ;

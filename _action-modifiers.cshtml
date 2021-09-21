@@ -4,20 +4,43 @@
 @{
     // enable/disable test sections for better debugging during development
     var testBasics = false;
-    var testMultipleNew = true;
+    var testMultipleNew = false;
     var testOtherTemplate = false;
     var testButtonId = false;
     var testDelete = false;
     var testSettings = false;
     var testServerSettings = false;
     var testParams = false;
-    var testGroups = true;
-    var testColors = false;
+    var testGroups = false;
+    var testColors = true;
     var tagToolbars = false;
+    
+}
+@functions {
+    string OnOff(bool state) {
+        return state ? "✔" : "⛔";
+    }
 }
 
 <div Edit.TagToolbar(Content)>
     <h1>New Tests for 10.27 syntax</h1>
+    
+    <div>
+        Will show these:
+        <ul>
+            <li>@OnOff(testBasics) Basics</li>
+            <li>@OnOff(testMultipleNew) testMultipleNew</li>
+            <li>@OnOff(testOtherTemplate) testOtherTemplate</li>
+            <li>@OnOff(testButtonId) testButtonId</li>
+            <li>@OnOff(testDelete) testDelete</li>
+            <li>@OnOff(testSettings) testSettings</li>
+            <li>@OnOff(testServerSettings) testServerSettings</li>
+            <li>@OnOff(testParams) testParams</li>
+            <li>@OnOff(testGroups) testGroups</li>
+            <li>@OnOff(testColors) testColors</li>
+            <li>@OnOff(tagToolbars) tagToolbars</li>
+        </ul>
+    </div>
     
 @if(testBasics) { <hr> <h2>Basics - Empty or just Remove</h2>
     <ol>
@@ -130,6 +153,11 @@ This already uses the <code>showTest1103</code> syntax which is a comma separate
         JS Toolbar with edit-only and colors
         <ul class="sc-menu" 
         toolbar='["toolbar=empty", "edit&color=FF0000,00FF00?entityId=@Content.EntityId"]'></ul>
+    </li>
+    <li>
+        JS Toolbar with edit-only and number-only colors - https://github.com/2sic/2sxc-ui/issues/66
+        <ul class="sc-menu" 
+        toolbar='["toolbar=empty", "edit&color=808080?entityId=@Content.EntityId"]'></ul>
     </li>
     <li>
         JS Toolbar with all buttons and additional edit in color - just testing, can't work as it doesn't have IDs
