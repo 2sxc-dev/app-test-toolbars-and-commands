@@ -1,22 +1,37 @@
 @* This tells the compiler to use the new RazorComponent - see https://r.2sxc.org/RazorComponent *@ 
 @inherits ToSic.Sxc.Dnn.RazorComponent
 
-<h1>Lots of demos / tutorials for toolbars</h1>
+<h1>Lots of Tests for Toolbars and Commands</h1>
 <div>
     This is just the entry page - click on a link to discover the examples.
 </div>
 
+<h2>Toolbars</h2>
 <ol>
     <li><a href='@Link.To(parameters: "basics=true")'>Basics</a></li>    
     <li><a href='@Link.To(parameters: "custom-buttons=true")'>Custom Buttons</a></li>    
-    <li><a href='@Link.To(parameters: "js-inject=true")'>JS Injected Toolbar</a></li>    
-    <li><a href='@Link.To(parameters: "links=true")'>Links calling commands</a></li>    
+    <li><a href='@Link.To(parameters: "js-inject=true")'>JS Injected Toolbar</a> (not working properly 2022-03-03)</li>    
+    <li><a href='@Link.To(parameters: "settings=true")'>Settings, Alignment etc.</a></li>    
+    <li><a href='@Link.To(parameters: "condition=true")'>Conditions</a></li>  
+
+    <li><a href='@Link.To(parameters: "toolbar-workflows=true")'>Toolbar Workflows</a></li>  
+
+
+
     <li><a href='@Link.To(parameters: "list-basics=true")'>List Basics</a></li>    
-    <li><a href='@Link.To(parameters: "settings=true")'>Settings (alignment etc.)</a></li>    
     
-    <li><a href='@Link.To(parameters: "no-type=true")'>Empty setup, template without data / content-type</a></li>
-    <li><a href='@Link.To(parameters: "query-edit=true")'>Automatic query-edit if view has query</a></li>    
-    <li><a href='@Link.To(parameters: "new=true")'>Empty toolbar on new template without code</a></li>    
     <li><a href='@Link.To(parameters: "action-modifiers=true")'>Action modifiers (new in 10.27)</a></li>    
     <li><a href='@Link.To(parameters: "prefill=true")'>New Prefill (new in 10.27)</a></li>    
+</ol>
+
+<h2>Toolbars Change as View Config Changes</h2>
+<ol>
+    <li><a href='@Link.To(parameters: "new=true")'>Empty toolbar on new template without code</a></li>    
+    <li><a href='@Link.To(parameters: "no-type=true")'>Empty setup, template without toolbar / content-type</a></li>
+    <li><a href='@Link.To(parameters: "query-edit=true")'>Automatic query-edit if view has query</a></li>    
+</ol>
+
+<h2>Commands</h2>
+<ol>
+    <li><a href='@Link.To(parameters: "links=true")'>Links calling commands</a></li>    
 </ol>

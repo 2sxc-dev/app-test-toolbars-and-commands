@@ -1,0 +1,24 @@
+<h1>Links calling commands</h1>
+
+<p>This demonstrates how you can create links, which will call a command</p>
+
+@if(CmsContext.User.IsSystemAdmin)
+{
+  <ol>
+      <li>
+          <a onclick='$2sxc(this).manage.run({"action": "layout"})'>layout</a>
+      </li>
+      <li>
+          <a onclick='$2sxc(this).manage.run({"action": "new", "contentType": "Dummy"})'>new</a>
+      </li>
+      <li>
+          <a onclick='$2sxc(this).manage.run({"action": "edit", "entityId": @Content.EntityId})'>edit #@Content.EntityId</a>
+      </li>
+      <li>
+          <a onclick='$2sxc(this).manage.run({"action": "edit", "useModuleList": true, "sortOrder": 0 })'>edit slot 0 of module list</a>
+      </li>
+      <li>manage table of <a onclick='$2sxc(this).manage.run({"action": "contentitems"})'>items of the type used in this template</a> or of 
+          <a onclick='$2sxc(this).manage.run({"action": "contentitems", contentType: "Quotes"})'>Quotes</a>
+      </li>
+  </ol>
+}
