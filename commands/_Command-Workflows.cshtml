@@ -1,0 +1,92 @@
+<h1>Command Workflows WIP</h1>
+
+
+TODO: VERIFY PROMISE ALSO WORKS!
+
+@* Setup the workflow commands *@
+<script>
+  // This workflow step will run on every action, just to log what's happening
+  const workflowToLog = {
+    command: 'all',   // Run on every command/action
+    phase: 'all',     // Run before and after
+    code: (wfArgs) => {
+      console.log("Toolbar asked to to something - here are the details.", wfArgs);
+    }
+  }
+
+  // This is the workflow step we will register to stop page refresh
+  const workflowToDisableRefresh = {
+    command: 'refresh',   // The command name it's for
+    phase: 'before',      // The workflow-step should run before the command is executed
+    code: (wfArgs) => {   // The code which should be run
+      console.log('Toolbar asked to refresh, will return false to stop it. These are the arguments we got.', wfArgs);
+      return false;       // Return false to stop this command from happening
+    }
+  };
+
+  const workflows = [workflowToLog, workflowToDisableRefresh];
+
+  // name is short for openAndCancelRefreshAfterwards
+  function oACR(tag, action, params) {
+
+    $2sxc.cms.run({ tag: tag, action: action, params: params, workflows: workflows})
+      .then(function(data) {
+        console.log("after run", data);
+        return false;
+      });
+  }
+
+  function oACRCmsNew(context, action, params) {
+    var ctx = {
+      zoneId: @App.ZoneId,
+      appId: @App.AppId,
+      pageId: @CmsContext.Page.Id,
+      moduleId: @CmsContext.Module.Id
+    };
+    $2sxc.cms.run({ context: ctx, action: action, params: params, workflows: workflows})
+      .then(function(data) {
+        console.log("after run", data);
+        return false;
+      });
+  }
+
+  function sxcRun(context, action, params) {
+    var ctx = {
+      zoneId: @App.ZoneId,
+      appId: @App.AppId,
+      pageId: @CmsContext.Page.Id,
+      moduleId: @CmsContext.Module.Id
+    };
+    $2sxc(ctx).cms.run({ action: action, params: params, workflows: workflows} )
+      .then(function(data) {
+        console.log("after run", data);
+        return false;
+      });
+  }
+</script>
+
+@if(CmsContext.User.IsSystemAdmin)
+{
+  <h3>Previously working implementation</h3>
+  <p>Workflows on Command working before 2022-03</p>
+  <ol>
+      <li>
+          <a onclick='oACR(this, "layout")'>layout</a>
+      </li>
+      <li>
+          <a onclick='oACR(this, "new", { "contentType": "Dummy"})'>new</a>
+      </li>
+  </ol>
+
+  <h3>Now with detailed context WIP</h3>
+  <ol>
+    <li>
+      <a onclick='oACRCmsNew(null, "new", { "contentType": "Dummy"})'>$2sxc.cms.run - 'new' on @App.ZoneId / @App.AppId </a>
+    </li>
+
+    <li>
+      <a onclick='sxcRun(null, "new", { "contentType": "Dummy"})'>$2sxc().run() - 'new' on @App.ZoneId / @App.AppId </a>
+    </li>
+
+  </ol>
+}
