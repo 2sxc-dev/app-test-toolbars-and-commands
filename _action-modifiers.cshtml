@@ -14,8 +14,8 @@
     var testGroups = false;
     var testColors = true;
     var tagToolbars = false;
-    var contentItems = true;
-    
+    var contentItems = false;
+    var context = true;
 }
 @functions {
     string OnOff(bool state) {
@@ -42,6 +42,7 @@
             <li>@OnOff(testColors) testColors</li>
             <li>@OnOff(tagToolbars) tagToolbars</li>
             <li>@OnOff(contentItems) contentItems</li>
+            <li>@OnOff(context) context (new in 13.12+)</li>
         </ul>
     </div>
     
@@ -279,6 +280,25 @@ This already uses the <code>showTest1103</code> syntax which is a comma separate
     </li>
     <li>
         Change color on server-Settings: @Edit.Toolbar(Content, settings: new { color = "#FF0000,#00FF00"})
+    </li>
+</ol>
+}
+
+@if(context) {<hr> <h2>Context changing Toolbars</h2>
+<ol>
+    <li>
+        Change context to app 42 zone 42 - no other params: @Edit.Toolbar(Content, toolbar: new [] { "toolbar=empty", "+edit?context:zoneId=42&context:appId=43"})
+    </li>
+    <li>
+        Change context to app 42 zone 42 - EnityId @Edit.Toolbar(toolbar: new [] { "toolbar=empty", 
+        "+edit?entityId=" + Content.EntityId 
+        + "&context:zoneId=" + App.ZoneId 
+        + "&context:appId=" + App.AppId 
+        + "&context:pageId=" + CmsContext.Page.Id 
+        + "&context:moduleId=" + CmsContext.Module.Id })
+    </li>
+    <li>
+        Change context to app 42 zone 42 - EnityId &amp; Color @Edit.Toolbar(toolbar: new [] { "toolbar=empty", "+edit&color=red?entityId=99&context:zoneId=42&context:appId=45"})
     </li>
 </ol>
 }
