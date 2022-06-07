@@ -5,7 +5,8 @@
 @{
     // enable/disable test sections for better debugging during development
     var testBasics = false;
-    var testCopy = true;
+    var testToolbarSvc = true;
+    var testCopy = false;
     var testMultipleNew = false;
     var testOtherTemplate = false;
     var testButtonId = false;
@@ -14,10 +15,10 @@
     var testServerSettings = false;
     var testParams = false;
     var testGroups = false;
-    var testColors = true;
+    var testColors = false;
     var tagToolbars = false;
     var contentItems = false;
-    var context = true;
+    var context = false;
     var tlbSvc = GetService<IToolbarService>();
 }
 @functions {
@@ -27,28 +28,29 @@
 }
 
 <div Edit.TagToolbar(Content)>
-    <h1>New Tests for 10.27 syntax</h1>
-    
-    <div>
-      <h3>Not all Tests are shown to make debugging easier</h3>
-        Will show these:
-        <ul>
-            <li>@OnOff(testBasics) Basics</li>
-            <li>@OnOff(testCopy) Copy</li>
-           <li>@OnOff(testMultipleNew) testMultipleNew</li>
-            <li>@OnOff(testOtherTemplate) testOtherTemplate</li>
-            <li>@OnOff(testButtonId) testButtonId</li>
-            <li>@OnOff(testDelete) testDelete</li>
-            <li>@OnOff(testSettings) testSettings</li>
-            <li>@OnOff(testServerSettings) testServerSettings</li>
-            <li>@OnOff(testParams) testParams</li>
-            <li>@OnOff(testGroups) testGroups</li>
-            <li>@OnOff(testColors) testColors</li>
-            <li>@OnOff(tagToolbars) tagToolbars</li>
-            <li>@OnOff(contentItems) contentItems</li>
-            <li>@OnOff(context) context (new in 13.12+)</li>
-        </ul>
-    </div>
+  <h1>New Tests for 10.27 syntax</h1>
+  
+  <div>
+    <h3>Not all Tests are shown to make debugging easier</h3>
+    Will show these:
+    <ul>
+      <li>@OnOff(testBasics) Basics</li>
+      <li>@OnOff(testToolbarSvc) Toolbar SVC Add etc.</li>
+      <li>@OnOff(testCopy) Copy</li>
+      <li>@OnOff(testMultipleNew) testMultipleNew</li>
+      <li>@OnOff(testOtherTemplate) testOtherTemplate</li>
+      <li>@OnOff(testButtonId) testButtonId</li>
+      <li>@OnOff(testDelete) testDelete</li>
+      <li>@OnOff(testSettings) testSettings</li>
+      <li>@OnOff(testServerSettings) testServerSettings</li>
+      <li>@OnOff(testParams) testParams</li>
+      <li>@OnOff(testGroups) testGroups</li>
+      <li>@OnOff(testColors) testColors</li>
+      <li>@OnOff(tagToolbars) tagToolbars</li>
+      <li>@OnOff(contentItems) contentItems</li>
+      <li>@OnOff(context) context (new in 13.12+)</li>
+    </ul>
+  </div>
     
 @if(testBasics) { <hr> <h2>Basics - Empty or just Remove</h2>
     <ol>
@@ -57,16 +59,25 @@
     </ol>
 }
 
+@if(testToolbarSvc) { <hr> <h2>Toolbar Service Add</h2>
+  var itemToCopy = AsDynamic(App.Data["Dummy"].First());
+  <ol>
+    <li>
+      TEST toolbar service multiple @Edit.Toolbar(itemToCopy, toolbar: tlbSvc.Empty().Add("+edit").Copy(itemToCopy))
+    </li>
+  </ol>
+}
+
 @if(testCopy) { <hr> <h2>Copy an Entity</h2>
   var itemToCopy = AsDynamic(App.Data["Dummy"].First());
-    <ol>
-      <li>
-        copy test: @Edit.Toolbar(itemToCopy, toolbar: new [] { "toolbar=empty", "+copy?contentTypeName=" + itemToCopy.EntityType })
-      </li>
-      <li>
-        Copy using Toolbar Service @Edit.Toolbar(tlbSvc.Copy(itemToCopy))
-      </li>
-    </ol>
+  <ol>
+    <li>
+      copy test: @Edit.Toolbar(itemToCopy, toolbar: new [] { "toolbar=empty", "+copy?contentTypeName=" + itemToCopy.EntityType })
+    </li>
+    <li>
+      Copy using Toolbar Service @Edit.Toolbar(tlbSvc.Copy(itemToCopy))
+    </li>
+  </ol>
 }
 
 @if(testMultipleNew) { <hr> <h2>Multiple New Buttons</h2>
