@@ -17,7 +17,7 @@
     var testGroups = false;
     var testColors = false;
     var tagToolbars = false;
-    var contentItems = false;
+    var testcontentItems = true;
     var context = false;
     var tlbSvc = GetService<IToolbarService>();
 }
@@ -47,7 +47,7 @@
       <li>@OnOff(testGroups) testGroups</li>
       <li>@OnOff(testColors) testColors</li>
       <li>@OnOff(tagToolbars) tagToolbars</li>
-      <li>@OnOff(contentItems) contentItems</li>
+      <li>@OnOff(testcontentItems) contentItems</li>
       <li>@OnOff(context) context (new in 13.12+)</li>
     </ul>
   </div>
@@ -300,10 +300,13 @@ This already uses the <code>showTest1103</code> syntax which is a comma separate
 }
 
 
-@if(contentItems) { <hr> <h2>Content Items Toolbar</h2>
+@if(testcontentItems) { <hr> <h2>Content Items Toolbar</h2>
 <ol>
     <li>
         Change background color server-toolbar: @Edit.Toolbar(Content, toolbar: new [] { "contentitems&show=true"})
+    </li>
+    <li>
+        Content-Items Filter: @Edit.Toolbar(Content, toolbar: new [] { "+contentitems?filter:parent=[534]"})
     </li>
     <li>
         Change color on server-Settings: @Edit.Toolbar(Content, settings: new { color = "#FF0000,#00FF00"})
